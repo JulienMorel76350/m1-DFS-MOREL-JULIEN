@@ -39,7 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Vacation>
      */
-    #[ORM\OneToMany(targetEntity: Vacation::class, mappedBy: 'users')]
+    #[ORM\OneToMany(targetEntity: Vacation::class, mappedBy: 'user')]
     private Collection $vacations;
 
     public function __construct()
@@ -133,7 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->vacations->contains($vacation)) {
             $this->vacations->add($vacation);
-            $vacation->setUsers($this);
+            $vacation->setUser($this);
         }
 
         return $this;
@@ -143,8 +143,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->vacations->removeElement($vacation)) {
             // set the owning side to null (unless already changed)
-            if ($vacation->getUsers() === $this) {
-                $vacation->setUsers(null);
+            if ($vacation->getUser() === $this) {
+                $vacation->setUser(null);
             }
         }
 
