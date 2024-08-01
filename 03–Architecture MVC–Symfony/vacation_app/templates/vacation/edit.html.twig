@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Edit vacation</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.startDate) }}
+        {{ form_row(form.endDate) }}
+        {{ form_row(form.type) }}
+        {{ form_row(form.status) }}
+        <button type="submit">Update</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('vacation_index') }}">Back to the list</a>
+{% endblock %}
