@@ -2,31 +2,54 @@
 
 {% block body %}
 	<h1>My Vacations</h1>
-
-	<table>
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Start Date</th>
-				<th>End Date</th>
-				<th>Type</th>
-				<th>Status</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for vacation in vacations %}
-				<tr>
-					<td>{{ vacation.id }}</td>
-					<td>{{ vacation.startDate|date('Y-m-d H:i') }}</td>
-					<td>{{ vacation.endDate|date('Y-m-d H:i') }}</td>
-					<td>{{ vacation.type }}</td>
-					<td>{{ vacation.status }}</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">ID</th>
+                    <th scope="col" class="px-6 py-3">Start Date</th>
+                    <th scope="col" class="px-6 py-3">End Date</th>
+                    <th scope="col" class="px-6 py-3">Type</th>
+                    <th scope="col" class="px-6 py-3">Status</th>
+                    <th scope="col" class="px-6 py-3">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vacation in vacations %}
+                    <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                        <td>{{ vacation.id }}</td>
+                        <td>{{ vacation.startDate|date('Y-m-d H:i') }}</td>
+                        <td>{{ vacation.endDate|date('Y-m-d H:i') }}</td>
+                        <td>{{ vacation.type }}</td>
+                        <td>{{ vacation.status }}</td>
+                        <td>
+                            <a href="{{ path('vacation_edit', {'id': vacation.id}) }}">Edit</a>
+                            <form method="post" action="{{ path('vacation_delete', {'id': vacation.id}) }}" style="display:inline-block" onsubmit="return confirm('Are you sure?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ vacation.id) }}">
+                                <button type="submit">Delete</button>
+                            </form>
+                            <form method="post" action="{{ path('vacation_approve', {'id': vacation.id}) }}" style="display:inline-block">
+                                <input type="hidden" name="_token" value="{{ csrf_token('approve' ~ vacation.id) }}">
+                                <button type="submit">Approve</button>
+                            </form>
+                            <form method="post" action="{{ path('vacation_reject', {'id': vacation.id}) }}" style="display:inline-block">
+                                <input type="hidden" name="_token" value="{{ csrf_token('reject' ~ vacation.id) }}">
+                                <button type="submit">Reject</button>
+                            </form>
+                            <form method="post" action="{{ path('vacation_cancel', {'id': vacation.id}) }}" style="display:inline-block">
+                                <input type="hidden" name="_token" value="{{ csrf_token('cancel' ~ vacation.id) }}">
+                                <button type="submit">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 	<a href="{{ path('vacation_new') }}">Request a new vacation</a>
+
+	
+
 {% endblock %}
 
