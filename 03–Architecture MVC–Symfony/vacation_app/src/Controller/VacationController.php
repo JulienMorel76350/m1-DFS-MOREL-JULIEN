@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/vacations')]
 class VacationController extends AbstractController
@@ -48,7 +49,15 @@ class VacationController extends AbstractController
     #[Route('/{id}/edit', name: 'vacation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Vacation $vacation, EntityManagerInterface $entityManager): Response
     {
-     //   $this->denyAccessUnlessGranted('edit', $vacation);
+        if ($vacation->getUser() !== $this->getUser()) {
+            $this->addFlash('error', 'You cannot edit this vacation.');
+            return $this->redirectToRoute('vacation_index');
+        }
+
+        if ($vacation->getStatus() == 'Validated') {
+            $this->addFlash('error', 'You cannot edit a validated vacation.');
+            return $this->redirectToRoute('vacation_index');
+        }
 
         $form = $this->createForm(VacationType::class, $vacation);
         $form->handleRequest($request);
@@ -68,7 +77,10 @@ class VacationController extends AbstractController
     #[Route('/{id}', name: 'vacation_delete', methods: ['POST'])]
     public function delete(Request $request, Vacation $vacation, EntityManagerInterface $entityManager): Response
     {
-      //  $this->denyAccessUnlessGranted('delete', $vacation);
+        if ($vacation->getUser() !== $this->getUser()) {
+            $this->addFlash('error', 'You cannot delete this vacation.');
+            return $this->redirectToRoute('vacation_index');
+        }
 
         if ($this->isCsrfTokenValid('delete' . $vacation->getId(), $request->request->get('_token'))) {
             $entityManager->remove($vacation);
@@ -81,10 +93,13 @@ class VacationController extends AbstractController
     #[Route('/{id}/approve', name: 'vacation_approve', methods: ['POST'])]
     public function approve(Request $request, Vacation $vacation, EntityManagerInterface $entityManager): Response
     {
-        //$this->denyAccessUnlessGranted('edit', $vacation);
+        if ($vacation->getUser() !== $this->getUser()) {
+            $this->addFlash('error', 'You cannot approve this vacation.');
+            return $this->redirectToRoute('vacation_index');
+        }
 
-        if ($this->isCsrfTokenValid('approve' . $vacation->getId(), $request->request->get('_token'))) {
-            $vacation->setStatus('Approved');
+        if ($vacation->getStatus() == 'Requested' && $this->isCsrfTokenValid('approve' . $vacation->getId(), $request->request->get('_token'))) {
+            $vacation->setStatus('Validated');
             $entityManager->flush();
         }
 
@@ -94,10 +109,13 @@ class VacationController extends AbstractController
     #[Route('/{id}/reject', name: 'vacation_reject', methods: ['POST'])]
     public function reject(Request $request, Vacation $vacation, EntityManagerInterface $entityManager): Response
     {
-        //    $this->denyAccessUnlessGranted('edit', $vacation);
+        if ($vacation->getUser() !== $this->getUser()) {
+            $this->addFlash('error', 'You cannot reject this vacation.');
+            return $this->redirectToRoute('vacation_index');
+        }
 
-        if ($this->isCsrfTokenValid('reject' . $vacation->getId(), $request->request->get('_token'))) {
-            $vacation->setStatus('Rejected');
+        if ($vacation->getStatus() == 'Requested' && $this->isCsrfTokenValid('reject' . $vacation->getId(), $request->request->get('_token'))) {
+            $vacation->setStatus('Refused');
             $entityManager->flush();
         }
 
@@ -107,7 +125,10 @@ class VacationController extends AbstractController
     #[Route('/{id}/cancel', name: 'vacation_cancel', methods: ['POST'])]
     public function cancel(Request $request, Vacation $vacation, EntityManagerInterface $entityManager): Response
     {
-       // $this->denyAccessUnlessGranted('delete', $vacation);
+        if ($vacation->getUser() !== $this->getUser()) {
+            $this->addFlash('error', 'You cannot cancel this vacation.');
+            return $this->redirectToRoute('vacation_index');
+        }
 
         if ($this->isCsrfTokenValid('cancel' . $vacation->getId(), $request->request->get('_token'))) {
             $vacation->setStatus('Cancelled');
