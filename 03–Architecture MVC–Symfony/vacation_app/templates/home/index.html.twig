@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home
+{% endblock %}
+
+{% block body %}
+	<div class="container mx-auto mt-4 pt-4">
+		<h1 class="text-3xl font-bold text-center mb-4">Welcome to MyApp</h1>
+		<p class="text-center text-lg mb-8">This is your new Symfony application. Explore the links below to get started.</p>
+
+		<div class="flex justify-center space-x-4">
+			<a href="{{ path('vacation_index') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">View Vacations</a>
+			<a href="{{ path('vacation_new') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Request a Vacation</a>
+		</div>
+	</div>
+{% endblock %}
+
