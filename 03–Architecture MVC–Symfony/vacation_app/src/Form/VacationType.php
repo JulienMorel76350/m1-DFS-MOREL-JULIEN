@@ -30,18 +30,6 @@ class VacationType extends AbstractType
                     'Exceptional Leave' => 'Exceptional Leave',
                 ],
                 'label' => 'Type',
-            ])
-            ->add('status', ChoiceType::class, [
-                'choices' => [
-                    'Requested' => 'Requested',
-                    'Validated' => 'Validated',
-                    'Refused' => 'Refused',
-                    'Cancelled' => 'Cancelled',
-                ],
-                'label' => 'Status',
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Submit Vacation Request',
             ]);
     }
 
