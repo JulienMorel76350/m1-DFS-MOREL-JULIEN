@@ -78,6 +78,11 @@ Encore
     // as the manifest.json file is always re-computed (but not required by the dev server):
     options.static.watch = false;
   })
-  .enablePostCssLoader();
+  .enablePostCssLoader((options) => {
+  // new option outlined here https://webpack.js.org/loaders/postcss-loader/
+  options.postcssOptions = {
+    config: './postcss.config.js',
+  };
+  })
 
 module.exports = Encore.getWebpackConfig();

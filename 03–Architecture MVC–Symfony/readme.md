@@ -49,3 +49,5 @@ Below are the resources I used to complete this project:
 - **Using Maker to Create Controllers, Entities, Auth, etc.**: [Symfony Maker Bundle Documentation](https://symfony.com/bundles/SymfonyMakerBundle/current/index.html)
 - **Creating User in Symfony**: [Symfony User Guide](https://symfony.com/doc/current/security.html#the-user)
 - **Login Authentication in Symfony**: [Symfony Login Authentication Guide](https://symfony.com/doc/current/security.html#form-login)
+- **Deployment Basics in Symfony**: [Symfony Deployment Basics Guide](https://symfony.com/doc/current/deployment.html)
+
