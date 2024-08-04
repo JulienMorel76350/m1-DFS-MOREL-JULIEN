@@ -3,7 +3,7 @@
 ## Description
 
 This is a vacation leave management application built with Symfony 7.1 and Twig. Users can request, view, and manage their vacation leaves.
-[VIDEO DEMONSTRATION !](https://youtu.be/r1ZzxGJl-kM)
+## VIDEO DEMONSTRATION ! https://youtu.be/r1ZzxGJl-kM
 
 ## Requirements
 
