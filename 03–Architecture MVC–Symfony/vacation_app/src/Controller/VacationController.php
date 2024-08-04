@@ -58,6 +58,10 @@ class VacationController extends AbstractController
             $this->addFlash('error', 'You cannot edit a validated vacation.');
             return $this->redirectToRoute('vacation_index');
         }
+        if ($vacation->getStatus() == 'Cancelled') {
+            $this->addFlash('error', 'You cannot edit a validated vacation.');
+            return $this->redirectToRoute('vacation_index');
+        }
 
         $form = $this->createForm(VacationType::class, $vacation);
         $form->handleRequest($request);
