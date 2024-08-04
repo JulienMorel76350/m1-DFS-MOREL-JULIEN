@@ -29,9 +29,9 @@ This is a vacation leave management application built with Symfony 7.1 and Twig.
     npm i
     ```
 
-3. **Set up the database:**
+### 3. **Set up the database:**
 
-### macOS with MAMP
+#### macOS with MAMP
 
 1. **Download and Install MAMP:**
    - [Download MAMP](https://www.mamp.info/en/downloads/)
@@ -49,7 +49,7 @@ This is a vacation leave management application built with Symfony 7.1 and Twig.
    ```
 
 
-### Windows with XAMPP
+#### Windows with XAMPP
 
 1. **Download and Install XAMPP:**
    - [Download XAMPP](https://www.apachefriends.org/index.html)
